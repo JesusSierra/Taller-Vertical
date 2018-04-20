@@ -1,21 +1,29 @@
-int pinButton = 3;
+int ButtonValue =0;
+int Button = 3;
 int LED = 2;
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(pinButton, INPUT);
+  pinMode(Button, INPUT);
   pinMode(LED,OUTPUT);
+  Serial.begin(9600);
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int stateButton= digitalRead(pinButton);
-  if(stateButton==1){
-      digitalWrite(LED,HIGH);
-    }
-    else {
-        digitalWrite(LED, LOW);
-      }
+  ButtonValue=digitalRead(Button);
 
+  if(ButtonValue !=0){
+      digitalWrite(LED, HIGH);
+      Serial.write(1);
+      Serial.flush();
+      delay(2000);
+      Serial.write(0);
+      Serial.flush();
+    }
+    else
+    {
+      digitalWrite(LED,LOW);  
+    }
 }
