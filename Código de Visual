@@ -1,0 +1,71 @@
+using System.Collections.Generic;
+using UnityEngine;
+using System.IO.Ports;
+ 
+public class ReadUSBChangeShader : MonoBehaviour
+{
+ 
+    public Shader rojo;
+    public Shader normal;
+    public Renderer rend;
+ 
+    SerialPort sp; //whatever COM arduino uses
+ 
+    private void Awake()
+    {
+        try
+        {
+            sp = new SerialPort("COM3", 9600);
+        }
+        catch (System.Exception)
+        {
+ 
+        }
+    }
+    void Start()
+    {
+        try
+        {
+            sp.Open();
+            sp.ReadTimeout = 1;
+            rend = GetComponent<Renderer>();
+        }
+        catch (System.Exception)
+        {
+ 
+        }
+    }
+ 
+    void Update()
+    {
+        if (sp.IsOpen)
+        {
+            try
+            {
+                int ln = sp.ReadByte();
+                if (ln == 1)
+                {
+                    rend.material.shader = rojo;
+ 
+                }
+                else {
+                    rend.material.shader = normal;
+                }
+            }
+ 
+            catch (System.Exception)
+            {
+ 
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                //Do something
+                Debug.Log("lee alterno");
+            }
+           
+        }
+    }
+}
